@@ -8,7 +8,6 @@ import lt.snatovich.demo.model.Tweet;
 import lt.snatovich.demo.model.User;
 import lt.snatovich.demo.repository.TweetRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
