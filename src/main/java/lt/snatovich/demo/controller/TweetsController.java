@@ -31,13 +31,13 @@ public class TweetsController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('admin')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Page<Tweet>> getAllTweets(Pageable pageable) {
         return ResponseEntity.ok(tweetsService.getAllTweetsPaginated(pageable));
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('admin')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Tweet> getTweetById(@PathVariable @Positive Long id) {
         return tweetsService.getTweetById(id)
                 .map(ResponseEntity::ok)
@@ -56,7 +56,7 @@ public class TweetsController {
         return ResponseEntity.ok(tweetsService.getAllUserTweetsPaginated(principal.getName(), pageable));
     }
 
-    @PutMapping("/userTweets/{id}")
+    @PatchMapping("/userTweets/{id}")
     public ResponseEntity<Tweet> updateUserTweet(@PathVariable Long id,
                                                  @RequestBody CreateUpdateTweetDto tweetDto,
                                                  Principal principal) {
@@ -65,8 +65,8 @@ public class TweetsController {
                 .orElseThrow(() -> new EntityNotFoundException(Tweet.class, id));
     }
 
-    @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('admin')")
+    @PatchMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Tweet> updateTweet(@PathVariable Long id, @RequestBody CreateUpdateTweetDto tweetDto) {
         return tweetsService.updateTweet(id, tweetDto)
                 .map(ResponseEntity::ok)
@@ -85,7 +85,7 @@ public class TweetsController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('admin')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> removeTweet(@PathVariable @Positive Long id) {
         final int deletedCount = tweetsService.deleteById(id);
 

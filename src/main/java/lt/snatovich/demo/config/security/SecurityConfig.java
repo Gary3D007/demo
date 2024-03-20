@@ -40,12 +40,20 @@ public class SecurityConfig {
     }
 
     static class GrantedAuthoritiesExtractor implements Converter<Jwt, Collection<GrantedAuthority>> {
+
+        @SuppressWarnings("unchecked")
         public Collection<GrantedAuthority> convert(Jwt jwt) {
-            return (
-                    (Map<String, Collection<?>>) jwt.getClaims().getOrDefault("realm_access", Collections.emptyMap())
-            ).getOrDefault("roles", Collections.emptyList())
+            final String JWT_CLAIMS_KEY = "realm_access";
+            final String CLAIMS_ROLES_KEY = "roles";
+            final String ROLE_FORMAT_PREFIX = "ROLE_%s";
+
+            return ((Map<String, Collection<?>>) jwt.getClaims()
+                    .getOrDefault(JWT_CLAIMS_KEY, Collections.emptyMap()))
+                    .getOrDefault(CLAIMS_ROLES_KEY, Collections.emptyList())
                     .stream()
                     .map(Object::toString)
+                    .map(String::toUpperCase)
+                    .map(ROLE_FORMAT_PREFIX::formatted)
                     .map(SimpleGrantedAuthority::new)
                     .collect(Collectors.toList());
         }
