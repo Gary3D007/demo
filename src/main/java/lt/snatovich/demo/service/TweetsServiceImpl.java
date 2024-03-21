@@ -1,6 +1,5 @@
 package lt.snatovich.demo.service;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lt.snatovich.demo.dto.CreateUpdateTweetDto;
@@ -73,13 +72,11 @@ public class TweetsServiceImpl implements TweetsService {
         });
     }
 
-    @Transactional
     @Override
     public int deleteUsersTweet(Long id, String userId) {
         return tweetRepository.removeByIdAndUser(id, new User(userId));
     }
 
-    @Transactional
     @Override
     public int deleteById(Long id) {
         return tweetRepository.removeById(id);

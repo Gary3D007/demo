@@ -62,7 +62,7 @@ public class TweetsControllerTest {
     }
 
     @Test
-    @WithMockUser(username = USERNAME, authorities = "admin")
+    @WithMockUser(username = USERNAME, roles = "ADMIN")
     public void getAllTweetsTest() throws Exception {
         mockMvc.perform(get("/tweets").with(csrf()))
                 .andExpectAll(status().isOk(),

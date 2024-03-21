@@ -43,13 +43,13 @@ public class SecurityConfig {
 
         @SuppressWarnings("unchecked")
         public Collection<GrantedAuthority> convert(Jwt jwt) {
-            final String JWT_CLAIMS_KEY = "realm_access";
-            final String CLAIMS_ROLES_KEY = "roles";
+            final String REALM_ACCESS_KEY = "realm_access";
+            final String ROLES_KEY = "roles";
             final String ROLE_FORMAT_PREFIX = "ROLE_%s";
 
             return ((Map<String, Collection<?>>) jwt.getClaims()
-                    .getOrDefault(JWT_CLAIMS_KEY, Collections.emptyMap()))
-                    .getOrDefault(CLAIMS_ROLES_KEY, Collections.emptyList())
+                    .getOrDefault(REALM_ACCESS_KEY, Collections.emptyMap()))
+                    .getOrDefault(ROLES_KEY, Collections.emptyList())
                     .stream()
                     .map(Object::toString)
                     .map(String::toUpperCase)
